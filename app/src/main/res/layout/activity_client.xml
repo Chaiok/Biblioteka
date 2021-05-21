@@ -17,12 +17,6 @@
         android:onClick="RefreshClients"
         android:text="Обновить" />
 
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
     <ListView
         android:id="@+id/client_listview"
         android:layout_width="match_parent"

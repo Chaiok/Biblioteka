@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -34,10 +33,7 @@ public class ClientActivity extends AppCompatActivity {
         Cursor query = db.rawQuery("SELECT * FROM client", null);
         ListView lv = (ListView) findViewById(R.id.client_listview);
         client = new ArrayList<>();
-        TextView headerView = (TextView) findViewById(R.id.test);
-        int k = 0;
         while (query.moveToNext()) {
-            k = k + 1;
             String first_name, last_name, middle_name, telephone;
             Integer id;
             id = query.getInt(0);
@@ -46,7 +42,6 @@ public class ClientActivity extends AppCompatActivity {
             middle_name = query.getString(3);
             telephone = query.getString(4);
             client.add(new Client(id, first_name, last_name, middle_name, telephone));
-            //headerView.setText(String.valueOf(k));
         }
         clientAdapter = new ClientAdapter(ClientActivity.this, client);
         lv.setAdapter(clientAdapter);
@@ -162,10 +157,7 @@ public class ClientActivity extends AppCompatActivity {
         Cursor query = db.rawQuery("SELECT * FROM client", null);
         ListView lv = (ListView) findViewById(R.id.client_listview);
         client = new ArrayList<>();
-        TextView headerView = (TextView) findViewById(R.id.test);
-        int k = 0;
         while (query.moveToNext()) {
-            k = k + 1;
             String first_name, last_name, middle_name, telephone;
             Integer id;
             id = query.getInt(0);
@@ -174,7 +166,6 @@ public class ClientActivity extends AppCompatActivity {
             middle_name = query.getString(3);
             telephone = query.getString(4);
             client.add(new Client(id, first_name, last_name, middle_name, telephone));
-            headerView.setText(String.valueOf(k));
         }
         clientAdapter = new ClientAdapter(ClientActivity.this, client);
         lv.setAdapter(clientAdapter);
