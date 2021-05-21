@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/librarian_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="AddLibrarian"
+        android:text="Добавить библиотекаря" />
+
+    <Button
+        android:id="@+id/librarian_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="RefreshLibrarians"
+        android:text="Обновить" />
+
+    <ListView
+        android:id="@+id/librarian_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
