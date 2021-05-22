@@ -49,4 +49,8 @@ public class BookAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.book_list_lay_id_pub_house)).setText(book.get(position).getId_publishing_house().toString());
         return view;
     }
+
+    public void setDropDownViewResource(int simple_spinner_dropdown_item) {
+
+    }
 }

@@ -7,13 +7,15 @@
         android:id="@+id/publishing_house_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="AddPublishing_house"
         android:text="Добавить издательство" />
 
     <Button
         android:id="@+id/publishing_house_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:onClick="RefreshPublishing_house"
+        android:text="Обновить" />
 
     <ListView
         android:id="@+id/publishing_house_listview"

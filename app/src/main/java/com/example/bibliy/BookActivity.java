@@ -13,13 +13,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookActivity extends AppCompatActivity {
     BookAdapter bookAdapter;
@@ -62,9 +65,9 @@ public class BookActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        menu.add(1,0,0,"Авторы");
-        menu.add(1,1,1,"Издательства");
-        menu.add(1,2,2,"Выход");
+        menu.add(1, 0, 0, "Авторы");
+        menu.add(1, 1, 1, "Издательства");
+        menu.add(1, 2, 2, "Выход");
         return true;
     }
 
@@ -115,14 +118,20 @@ public class BookActivity extends AppCompatActivity {
                 values.put("pages", Integer.valueOf(et4.getText().toString()));
                 values.put("id_author", Integer.valueOf(et5.getText().toString()));
                 values.put("id_publishing_house", Integer.valueOf(et6.getText().toString()));
-                long newRowId;
+                long newRowId = -1;
                 if (id > 0) {
                     db.execSQL("PRAGMA foreign_keys=ON");
-                    newRowId = db.update("book", values, "id = ?", new String[]{String.valueOf(id)});
-                    if (newRowId != -1)
-                        Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+                    try {
+                        //db.execSQL("UPDATE book SET book_name = ? WHERE id = ?", new String[] {"kkk", String.valueOf(id)});
+                        newRowId = db.update("book", values, "id = ?", new String[]{String.valueOf(id)});
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (newRowId != -1)
+                            Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "Некоректный id", Toast.LENGTH_LONG).show();
                 }
@@ -150,6 +159,43 @@ public class BookActivity extends AppCompatActivity {
         final EditText et4 = (EditText) vv.findViewById(R.id.book_add_pages);
         final EditText et5 = (EditText) vv.findViewById(R.id.book_add_id_author);
         final EditText et6 = (EditText) vv.findViewById(R.id.book_add_id_pub_house);
+        final Spinner et7 = (Spinner) vv.findViewById(R.id.spinner);
+        List<Guy> guys = new ArrayList<Guy>();
+        guys.add(new Guy("Lukas", 18));
+        guys.add(new Guy("Steve", 20));
+        guys.add(new Guy("Forest", 50));
+        MyAdapter adapter = new MyAdapter(BookActivity.this,guys);
+        et7.setAdapter(adapter);
+        et7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            /**
+             * Called when a new item was selected (in the Spinner)
+             */
+            public void onItemSelected(AdapterView<?> parent,
+                                       View view, int pos, long id) {
+                Guy g = (Guy) parent.getItemAtPosition(pos);
+                Toast.makeText(
+                        getApplicationContext(),
+                        g.getName()+" is "+g.getAge()+" years old.",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+
+            public void onNothingSelected(AdapterView parent) {
+                // Do nothing.
+            }
+        });
+        /*
+        String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, countries);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        et7.setAdapter(adapter);
+        */
+        /*
+        BookAdapter adapter1 = new BookAdapter(BookActivity.this, book);;
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        et7.setAdapter(adapter1);
+        */
+
         subjectDialog.setView(vv);
 
         subjectDialog.setPositiveButton("Подтвердить", new DialogInterface.OnClickListener() {
