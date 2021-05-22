@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AuthorAdapter extends BaseAdapter {
     ArrayList<Author> author = new ArrayList<>();
@@ -38,12 +39,12 @@ public class AuthorAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        view = lInflater.inflate(R.layout.client_list_layout, parent, false);
+        view = lInflater.inflate(R.layout.author_list_layout, parent, false);
         if (author.isEmpty()) return view;
-        ((TextView) view.findViewById(R.id.client_list_lay_id)).setText(author.get(position).getId().toString());
-        ((TextView) view.findViewById(R.id.client_list_lay_fn)).setText(author.get(position).getFirst_name());
-        ((TextView) view.findViewById(R.id.client_list_lay_ln)).setText(author.get(position).getLast_name());
-        ((TextView) view.findViewById(R.id.client_list_lay_mn)).setText(author.get(position).getMiddle_name());
+        ((TextView) view.findViewById(R.id.author_list_lay_id)).setText(author.get(position).getId().toString());
+        ((TextView) view.findViewById(R.id.author_list_lay_fn)).setText(author.get(position).getFirst_name());
+        ((TextView) view.findViewById(R.id.author_list_lay_ln)).setText(author.get(position).getLast_name());
+        ((TextView) view.findViewById(R.id.author_list_lay_mn)).setText(author.get(position).getMiddle_name());
         return view;
     }
 }

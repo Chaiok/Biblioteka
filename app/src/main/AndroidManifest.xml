@@ -26,6 +26,10 @@
         </activity>
         <activity android:name=".LibrarianActivity">
         </activity>
+        <activity android:name=".AuthorActivity">
+        </activity>
+        <activity android:name=".Publishing_houseActivity">
+        </activity>
     </application>
 
 </manifest>

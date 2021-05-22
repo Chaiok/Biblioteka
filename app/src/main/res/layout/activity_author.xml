@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/author_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="AddAuthor"
+        android:text="Добавить автора" />
+
+    <Button
+        android:id="@+id/author_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="RefreshAuthors"
+        android:text="Обновить" />
+
+    <ListView
+        android:id="@+id/author_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

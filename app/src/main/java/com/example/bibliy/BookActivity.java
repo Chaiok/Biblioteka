@@ -62,9 +62,9 @@ public class BookActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        menu.add("Выход");
-        menu.add("Авторы");
-        menu.add("Издательства");
+        menu.add(1,0,0,"Авторы");
+        menu.add(1,1,1,"Издательства");
+        menu.add(1,2,2,"Выход");
         return true;
     }
 
@@ -74,15 +74,16 @@ public class BookActivity extends AppCompatActivity {
         Intent intent;
         switch (id) {
             case 0:
-                finish();
+                intent = new Intent(this, AuthorActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent);
                 return true;
             case 1:
-                //intent = new Intent(this, AuthorActivity.class);
-                //startActivity(intent);
+                intent = new Intent(this, Publishing_houseActivity.class);
+                startActivity(intent);
                 return true;
             case 2:
-                //intent = new Intent(this, Publishing_houseActivity.class);
-                //startActivity(intent);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -116,6 +117,7 @@ public class BookActivity extends AppCompatActivity {
                 values.put("id_publishing_house", Integer.valueOf(et6.getText().toString()));
                 long newRowId;
                 if (id > 0) {
+                    db.execSQL("PRAGMA foreign_keys=ON");
                     newRowId = db.update("book", values, "id = ?", new String[]{String.valueOf(id)});
                     if (newRowId != -1)
                         Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
@@ -161,6 +163,7 @@ public class BookActivity extends AppCompatActivity {
                 values.put("pages", Integer.valueOf(et4.getText().toString()));
                 values.put("id_author", Integer.valueOf(et5.getText().toString()));
                 values.put("id_publishing_house", Integer.valueOf(et6.getText().toString()));
+                db.execSQL("PRAGMA foreign_keys=ON");
                 long newRowId = db.insert("book", null, values);
                 if (newRowId != -1)
                     Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
