@@ -3,11 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <TextView
         android:id="@+id/textView9"
         android:layout_width="match_parent"
@@ -64,26 +59,22 @@
         android:id="@+id/textView16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="id автора" />
+        android:text="Автор" />
 
-    <EditText
-        android:id="@+id/book_add_id_author"
+    <Spinner
+        android:id="@+id/book_add_author_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="id издательство" />
+        android:text="Издательство" />
 
-    <EditText
-        android:id="@+id/book_add_id_pub_house"
+    <Spinner
+        android:id="@+id/book_add_pub_house_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

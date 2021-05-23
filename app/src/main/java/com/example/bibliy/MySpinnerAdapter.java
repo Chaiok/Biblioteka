@@ -11,12 +11,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyAdapter extends BaseAdapter implements SpinnerAdapter {
-    private final List<Guy> data;
+public class MySpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+    private final List<MyDataSpinner> data;
     LayoutInflater lInflater;
     Context ctx;
 
-    public MyAdapter(Context context, List<Guy> data){
+    public MySpinnerAdapter(Context context, List<MyDataSpinner> data) {
         this.ctx = context;
         this.data = data;
         lInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,6 +43,7 @@ public class MyAdapter extends BaseAdapter implements SpinnerAdapter {
     public long getItemId(int i) {
         return i;
     }
+
     /**
      * Returns the View that is shown when a element was
      * selected.
@@ -50,7 +51,7 @@ public class MyAdapter extends BaseAdapter implements SpinnerAdapter {
     @Override
     public View getView(int position, View recycle, ViewGroup parent) {
         TextView text;
-        if (recycle != null){
+        if (recycle != null) {
             // Re-use the recycled view here!
             text = (TextView) recycle;
         } else {
