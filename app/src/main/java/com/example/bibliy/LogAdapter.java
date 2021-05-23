@@ -40,11 +40,11 @@ public class LogAdapter extends BaseAdapter {
         View view = convertView;
         view = lInflater.inflate(R.layout.log_list_layout, parent, false);
         if (log.isEmpty()) return view;
-        ((TextView) view.findViewById(R.id.client_list_lay_id)).setText(log.get(position).getId().toString());
-        //((TextView) view.findViewById(R.id.client_list_lay_fn)).setText(log.get(position).getFirst_name());
-        //((TextView) view.findViewById(R.id.client_list_lay_ln)).setText(log.get(position).getLast_name());
-        //((TextView) view.findViewById(R.id.client_list_lay_mn)).setText(log.get(position).getMiddle_name());
-        //((TextView) view.findViewById(R.id.client_list_lay_t)).setText(log.get(position).getTelephone());
+        ((TextView) view.findViewById(R.id.log_list_lay_id)).setText(log.get(position).getId().toString());
+        ((TextView) view.findViewById(R.id.log_list_lay_log)).setText(log.get(position).getLog());
+        ((TextView) view.findViewById(R.id.log_list_lay_id_client)).setText(log.get(position).getId_client().toString());
+        ((TextView) view.findViewById(R.id.log_list_lay_id_book)).setText(log.get(position).getId_book().toString());
+        ((TextView) view.findViewById(R.id.log_list_lay_id_librarian)).setText(log.get(position).getId_librarian().toString());
         return view;
     }
 }
