@@ -11,6 +11,12 @@
         android:text="Добавить клиента" />
 
     <Button
+        android:id="@+id/client_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Удалить клиента" />
+
+    <Button
         android:id="@+id/client_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

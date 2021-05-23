@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +34,60 @@ public class LogbookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logbook);
         RefreshLog();
+        View.OnClickListener delete = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder subjectDialog;
+                subjectDialog = new AlertDialog.Builder(LogbookActivity.this);
+                subjectDialog.setTitle("Удалить запись");
+                subjectDialog.setCancelable(false);
+
+                View vv = (LinearLayout) getLayoutInflater().inflate(R.layout.delete_layout, null);
+                final Spinner et1 = (Spinner) vv.findViewById(R.id.delete_spinner);
+
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                Cursor query = db.rawQuery("SELECT * FROM logbook", null);
+                List<Log> log_data = new ArrayList<Log>();
+                while (query.moveToNext()) {
+                    String logbook;
+                    Integer id, id_client, id_book, id_librarian;
+                    id = query.getInt(0);
+                    logbook = query.getString(1);
+                    id_client = query.getInt(2);
+                    id_book = query.getInt(3);
+                    id_librarian = query.getInt(4);
+                    log_data.add(new Log(id, logbook, id_client, id_book, id_librarian));
+                }
+                LogSpinner log_spinner = new LogSpinner(LogbookActivity.this, log_data);
+                et1.setAdapter(log_spinner);
+
+                subjectDialog.setView(vv);
+
+                subjectDialog.setPositiveButton("Подтвердить", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                        Log cl = (Log) et1.getSelectedItem();
+                        db.execSQL("PRAGMA foreign_keys=ON");
+                        try {
+                            db.delete("logbook", "id = ?", new String[]{String.valueOf(cl.getId())});
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+                        } finally {
+                        }
+                        db.close();
+                        RefreshLog();
+                    }
+                }).setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                subjectDialog.show();
+            }
+        };
+        ((Button) findViewById(R.id.log_delete)).setOnClickListener(delete);
     }
 
     @Override
@@ -148,6 +203,7 @@ public class LogbookActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Некоректный id", Toast.LENGTH_LONG).show();
                 }
                 db.close();
+                RefreshLog();
             }
         }).setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
             @Override
@@ -241,6 +297,7 @@ public class LogbookActivity extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
                 db.close();
+                RefreshLog();
             }
         }).setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
             @Override

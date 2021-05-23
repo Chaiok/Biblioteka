@@ -46,7 +46,7 @@
         android:id="@+id/textView15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Количество страниц" />
+        android:text="Количество страниц(INTEGER)" />
 
     <EditText
         android:id="@+id/book_add_pages"

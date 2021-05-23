@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,6 +35,62 @@ public class BookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book);
 
         RefreshBooks();
+        View.OnClickListener delete = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder subjectDialog;
+                subjectDialog = new AlertDialog.Builder(BookActivity.this);
+                subjectDialog.setTitle("Удалить книгу");
+                subjectDialog.setCancelable(false);
+
+                View vv = (LinearLayout) getLayoutInflater().inflate(R.layout.delete_layout, null);
+                final Spinner et1 = (Spinner) vv.findViewById(R.id.delete_spinner);
+
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                Cursor query = db.rawQuery("SELECT * FROM book", null);
+                List<Book> book_data = new ArrayList<Book>();
+                while (query.moveToNext()) {
+                    String book_name, genre, year_of_publishing;
+                    Integer id, pages, id_author, id_publishing_house;
+                    id = query.getInt(0);
+                    book_name = query.getString(1);
+                    genre = query.getString(2);
+                    year_of_publishing = query.getString(3);
+                    pages = query.getInt(4);
+                    id_author = query.getInt(5);
+                    id_publishing_house = query.getInt(6);
+                    book_data.add(new Book(id, book_name, genre, year_of_publishing, pages, id_author, id_publishing_house));
+                }
+                BookSpinner book_spinner = new BookSpinner(BookActivity.this, book_data);
+                et1.setAdapter(book_spinner);
+
+                subjectDialog.setView(vv);
+
+                subjectDialog.setPositiveButton("Подтвердить", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                        Book cl = (Book) et1.getSelectedItem();
+                        db.execSQL("PRAGMA foreign_keys=ON");
+                        try {
+                            db.delete("book", "id = ?", new String[]{String.valueOf(cl.getId())});
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+                        } finally {
+                        }
+                        db.close();
+                        RefreshBooks();
+                    }
+                }).setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                subjectDialog.show();
+            }
+        };
+        ((Button) findViewById(R.id.book_delete)).setOnClickListener(delete);
     }
 
     @Override
@@ -146,6 +203,7 @@ public class BookActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Некоректный id", Toast.LENGTH_LONG).show();
                 }
                 db.close();
+                RefreshBooks();
             }
         }).setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
             @Override
@@ -201,54 +259,37 @@ public class BookActivity extends AppCompatActivity {
         query.close();
         db.close();
 
-        /*
-        List<MyDataSpinner> data = new ArrayList<MyDataSpinner>();
-        data.add(new MyDataSpinner("Lukas", 18));
-        data.add(new MyDataSpinner("Steve", 20));
-        data.add(new MyDataSpinner("Forest", 50));
-        MySpinnerAdapter adapter = new MySpinnerAdapter(BookActivity.this,data);
-        et7.setAdapter(adapter);
-        et7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent,
-                                       View view, int pos, long id) {
-                MyDataSpinner g = (MyDataSpinner) parent.getItemAtPosition(pos);
-                Toast.makeText(
-                        getApplicationContext(),
-                        g.getName()+" is "+g.getAge()+" years old.",
-                        Toast.LENGTH_LONG
-                ).show();
-            }
-
-            public void onNothingSelected(AdapterView parent) {
-                // Do nothing.
-            }
-        });
-        */
-
         subjectDialog.setView(vv);
 
         subjectDialog.setPositiveButton("Подтвердить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-                ContentValues values = new ContentValues();
-                values.put("book_name", et1.getText().toString());
-                values.put("genre", et2.getText().toString());
-                values.put("year_of_publishing", et3.getText().toString());
-                values.put("pages", Integer.valueOf(et4.getText().toString()));
-                Author author = (Author) et5.getSelectedItem();
-                values.put("id_author", author.getId());
-                Publishing_house pub_house = (Publishing_house) et6.getSelectedItem();
-                values.put("id_publishing_house", pub_house.getId());
-                //values.put("id_author", Integer.valueOf(et5.getText().toString()));
-                //values.put("id_publishing_house", Integer.valueOf(et6.getText().toString()));
-                db.execSQL("PRAGMA foreign_keys=ON");
-                long newRowId = db.insert("book", null, values);
-                if (newRowId != -1)
-                    Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
-                else
+                try {
+                    SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                    ContentValues values = new ContentValues();
+                    values.put("book_name", et1.getText().toString());
+                    values.put("genre", et2.getText().toString());
+                    values.put("year_of_publishing", et3.getText().toString());
+                    values.put("pages", Integer.valueOf(et4.getText().toString()));
+                    Author author = (Author) et5.getSelectedItem();
+                    values.put("id_author", author.getId());
+                    Publishing_house pub_house = (Publishing_house) et6.getSelectedItem();
+                    values.put("id_publishing_house", pub_house.getId());
+                    //values.put("id_author", Integer.valueOf(et5.getText().toString()));
+                    //values.put("id_publishing_house", Integer.valueOf(et6.getText().toString()));
+                    db.execSQL("PRAGMA foreign_keys=ON");
+                    long newRowId = db.insert("book", null, values);
+                    if (newRowId != -1)
+                        Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+                }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
-                db.close();
+                }
+                finally {
+                    db.close();
+                    RefreshBooks();
+                }
             }
         }).setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
             @Override

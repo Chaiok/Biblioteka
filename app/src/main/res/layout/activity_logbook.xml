@@ -12,6 +12,12 @@
         android:text="Добавить запись" />
 
     <Button
+        android:id="@+id/log_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Удалить запись" />
+
+    <Button
         android:id="@+id/log_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

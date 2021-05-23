@@ -11,6 +11,12 @@
         android:text="Добавить издательство" />
 
     <Button
+        android:id="@+id/publishing_house_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Удалить издательство" />
+
+    <Button
         android:id="@+id/publishing_house_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

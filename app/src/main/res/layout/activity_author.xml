@@ -11,6 +11,12 @@
         android:text="Добавить автора" />
 
     <Button
+        android:id="@+id/author_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Удалить автора" />
+
+    <Button
         android:id="@+id/author_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

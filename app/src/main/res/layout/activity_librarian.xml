@@ -11,6 +11,12 @@
         android:text="Добавить библиотекаря" />
 
     <Button
+        android:id="@+id/librarian_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Удалить библиотекаря" />
+
+    <Button
         android:id="@+id/librarian_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
