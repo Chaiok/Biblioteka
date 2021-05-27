@@ -33,7 +33,9 @@ public class LogbookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logbook);
+
         RefreshLog();
+
         View.OnClickListener delete = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,7 +219,7 @@ public class LogbookActivity extends AppCompatActivity {
     public void AddLog(View view) {
         AlertDialog.Builder subjectDialog;
         subjectDialog = new AlertDialog.Builder(LogbookActivity.this);
-        subjectDialog.setTitle("Обновить запись");
+        subjectDialog.setTitle("Добавить запись");
         subjectDialog.setCancelable(false);
 
         View vv = (LinearLayout) getLayoutInflater().inflate(R.layout.log_layout, null);
@@ -281,7 +283,9 @@ public class LogbookActivity extends AppCompatActivity {
         subjectDialog.setPositiveButton("Подтвердить", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                long newRowId =-1;
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                try {
                 ContentValues values = new ContentValues();
                 values.put("log", et1.getText().toString());
                 Client id_client = (Client) et2.getSelectedItem();
@@ -291,11 +295,15 @@ public class LogbookActivity extends AppCompatActivity {
                 Librarian id_librarian = (Librarian) et4.getSelectedItem();
                 values.put("id_librarian", id_librarian.getId());
                 db.execSQL("PRAGMA foreign_keys=ON");
-                long newRowId = db.insert("logbook", null, values);
-                if (newRowId != -1)
-                    Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+                newRowId = db.insert("logbook", null, values);
+                }catch (Exception e){
+
+                }finally {
+                    if (newRowId != -1)
+                        Toast.makeText(getApplicationContext(), "Данные успешно изменены", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getApplicationContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
+                }
                 db.close();
                 RefreshLog();
             }

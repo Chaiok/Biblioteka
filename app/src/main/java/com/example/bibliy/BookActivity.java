@@ -102,6 +102,7 @@ public class BookActivity extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -321,6 +322,8 @@ public class BookActivity extends AppCompatActivity {
             id_publishing_house = query.getInt(6);
             book.add(new Book(id, book_name, genre, year_of_publishing, pages, id_author, id_publishing_house));
         }
+        query.close();
+        db.close();
         bookAdapter = new BookAdapter(BookActivity.this, book);
         lv.setAdapter(bookAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -329,7 +332,5 @@ public class BookActivity extends AppCompatActivity {
                 EditBook(Integer.valueOf(((TextView) itemClicked.findViewById(R.id.book_list_lay_id)).getText().toString()));
             }
         });
-        query.close();
-        db.close();
     }
 }

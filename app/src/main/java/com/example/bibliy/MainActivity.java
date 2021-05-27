@@ -2,7 +2,6 @@ package com.example.bibliy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -34,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
                 "FOREIGN KEY (id_client) REFERENCES client (id), " +
                 "FOREIGN KEY (id_book) REFERENCES book (id), " +
                 "FOREIGN KEY (id_librarian) REFERENCES librarian (id))");
+        db.close();
+
         //select
         /*
         Cursor query = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type = ? AND name = ?", new String[] {"table", "logbook"});
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         context.deleteDatabase("app.db");
         */
         //query.close();
-        db.close();
+        //db.close();
     }
 
     @Override
@@ -99,14 +100,15 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(this, HandbookActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.reports_settings:
-                //headerView.setText("Отчеты");
-                return true;
             case R.id.about_the_program_settings:
                 //headerView.setText("О программе");
+                intent = new Intent(this, About_the_programActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.exit_settings:
                 //headerView.setText("Выход");
+                //this.finish();
+                System.exit(0);
                 return true;
         }
         //headerView.setText(item.getTitle());
